@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: otel-demo-ingress
+  namespace: otel-demo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: opentelemetry-demo-frontendproxy
+            port:
+              number: 8080
+      - path: /grafana
+        pathType: Prefix
+        backend:
+          service:
+            name: opentelemetry-demo-grafana
+            port:
+              number: 80
+      - path: /loadgen
+        pathType: Prefix
+        backend:
+          service:
+            name: opentelemetry-demo-loadgenerator
+            port:
+              number: 8089
+      - path: /jaeger
+        pathType: Prefix
+        backend:
+          service:
+            name: opentelemetry-demo-jaeger-query
+            port:
+              number: 16686
+      - path: /feature
+        pathType: Prefix
+        backend:
+          service:
+            name: opentelemetry-demo-flagd
+            port:
+              number: 8013
